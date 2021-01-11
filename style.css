@@ -1,18 +1,18 @@
 body {
-    background: linear-gradient(#e66465, #67e5a0);
-    height: 100%;
-      margin: 0;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  #play {
-    background-color: black;
-    color: #ff33cc;
-    border: 1px dashed #ff33cc;
-    border-radius: 5px;
-  }
+  background: linear-gradient(#e66465, #67e5a0);
+  height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#play {
+  background-color: black;
+  color: #ff33cc;
+  border: 1px dashed #ff33cc;
+  border-radius: 5px;
+}
