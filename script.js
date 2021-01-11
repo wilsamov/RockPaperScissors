@@ -1,81 +1,82 @@
 //global variables
-
-const moveOptions = ["rock", "paper", "scissors"];
-let computerSelection;
-let playerSelection;
+let options = ['rock', 'paper', 'scissors'];
 let winner;
+let computerSelection = computerPlay();
+let playerSelection;
 let playerScore = 0;
 let computerScore = 0;
-let roundNumber = 1;
-const box = document.getElementById('box');
-const results = document.getElementById('results');
+let roundCount = 0;
+const div = document.getElementById('results');
+div.style.cssText = "font-family: arial; color: #990099";
 
-//function that randomly chooses one of the options
+
+//Computer's Choice
 function computerPlay() {
-  let option = Math.floor(Math.random() * 3);
-  computerSelection = moveOptions[option];
-  return computerSelection;
+  let randomOption = Math.floor(Math.random() * options.length);
+  return options[randomOption];
 }
 
-//prompts player to choose
-function playerPlay() {
-  const rock = document.getElementById('rock');
-  const paper = document.getElementById('paper');
-  const scissors = document.getElementById('scissors');
-  const content = document.createElement('h3');
 
-  content.style.cssText = "font-family: arial; color: #990099";
-
-  rock.addEventListener('click', (e) => {
-    playerSelection = moveOptions[0];
-    console.log(playerSelection);
-    content.textContent = `You choose ${playerSelection}.`;
-    box.appendChild(content);
-    return playerSelection;
-  });  
-
-  paper.addEventListener('click', (e) => {
-    playerSelection = moveOptions[1];
-    console.log(playerSelection);
-    content.textContent = `You choose ${playerSelection}.`;
-    box.appendChild(content);
-    return playerSelection;
-  }); 
-
-  scissors.addEventListener('click', (e) => {
-    playerSelection = moveOptions[2];
-    console.log(playerSelection);
-    content.textContent = `You choose ${playerSelection}.`;
-    box.appendChild(content);
-    return playerSelection;
-  });
-}
-
+//Plays a single round
 function playRound(playerSelection, computerSelection) {
-  const play = document.getElementById('play');
-  const content2 = document.createElement('h3');
-
-  play.addEventListener('click', (e) => {
-    if (playerSelection === "rock" && computerSelection === "scissors" || playerSelection === "paper" && computerSelection === "rock" || playerSelection === "scissors" && computerSelection === "paper") {
-      winner = "Player";
-      playerScore++;
-      content2.textContent = `${winner} wins. You have ${playerScore} points. Computer has ${computerScore} points. Round ${roundNumber} over.`;
-      results.appendChild(content2);
-      roundNumber++;
-    } else if (playerSelection === "scissors" && computerSelection === "rock" || playerSelection === "rock" && computerSelection === "paper" || playerSelection === "paper" && computerSelection === "rock") {
-      winner = "Computer";
-      computerScore++;
-      content2.textContent = `${winner} wins. You have ${playerScore} points. Computer has ${computerScore} points. Round ${roundNumber} over.`;
-      results.appendChild(content2);
-      roundNumber++;
-    } else {
-      content2.textContent = `You tied. Round ${roundNumber} over.`;
-      results.appendChild(content2);
-      roundNumber++;
-    }
-  });
+  if (playerSelection === 'rock' && computerSelection === 'scissors' || playerSelection === 'paper' && computerSelection === 'rock' || playerSelection === 'scissors' && computerSelection === 'paper') {
+    winner = "Player";
+    playerScore++;
+    roundCount++;
+    div.textContent = `You win round ${roundCount}: ${playerSelection} beats ${computerSelection}.`;
+    container.appendChild(div);
+  } else if (playerSelection === 'rock' && computerSelection === 'paper' || playerSelection === 'paper' && computerSelection === 'scissors' || playerSelection === 'scissors' && computerSelection === 'rock') {
+    winner = "Computer";
+    computerScore++;
+    roundCount++;
+    div.textContent = `${winner} wins round ${roundCount}: ${computerSelection} beats ${playerSelection}.`;
+    container.appendChild(div);
+  } else {
+    roundCount++;
+    div.textContent = `You tied on round ${roundCount}: ${playerSelection} can't beat ${computerSelection}.`;
+    container.appendChild(div);
+  }
 }
 
-computerPlay();
-playerPlay();
-playRound(playerSelection, computerSelection);
+//function that declares winner
+function winnerScore(computerScore, playerScore) {
+  if (computerScore > playerScore) {
+      div.textContent = `You lost. Computer won ${computerScore} out of 5 rounds.`;
+      winner = "computer";
+    } else if (playerScore > computerScore) {
+      div.textContent = `You won ${playerScore} out of 5 rounds.`;
+      winner = "player";
+    } else {
+      div.textContent = `You tied with computer!`;
+    }
+}
+
+//event listeners
+const buttons = document.querySelectorAll('.button');
+buttons.forEach(button => button.addEventListener('click', selectButton));
+
+function selectButton(e) {
+  playerSelection = event.target.id;
+  console.log(playerSelection);
+  if (roundCount < 5) {
+    playRound(playerSelection, computerSelection);
+  } else {
+    winnerScore(computerScore, playerScore);
+    roundCount = 0;
+    playerScore = 0;
+    computerScore = 0;
+  }
+};
+
+
+
+//5 round game
+/*function game() {
+  for (let i = 0; i < 5; i++) {
+    playerPlay();
+    computerPlay();
+    playRound(playerSelection, computerSelection);
+  } winnerScore(computerScore, playerScore);
+}*/
+
+//no code below. only function calling
